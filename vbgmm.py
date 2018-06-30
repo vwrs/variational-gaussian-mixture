@@ -172,6 +172,7 @@ class VariationalGaussianMixture():
         ax.scatter(self.means[:, 0], self.means[:, 1],
                    c='orange', edgecolor='k',
                    marker='*', s=150)
+        plt.grid()
         plt.show()
 
 
