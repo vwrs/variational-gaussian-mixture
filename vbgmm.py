@@ -8,14 +8,13 @@ import matplotlib as mpl
 class VariationalGaussianMixture():
     """Variational Bayesian estimation of a Gaussian mixture."""
 
-    def __init__(self, N, K, D, x):
-        self.N = N
-        self.K = K
-        self.D = D
+    def __init__(self, x, K):
         self.x = x
-        self.alpha0 = D + 1
-        self.beta0 = D + 1
-        self.nu0 = D + 1
+        self.N, self.D = x.shape
+        self.K = K
+        self.alpha0 = self.D + 1
+        self.beta0 = self.D + 1
+        self.nu0 = self.D + 1
         self.u0 = self._get_u0()
         self.V0 = self._get_V0()
         self._init_params()
@@ -176,11 +175,10 @@ class VariationalGaussianMixture():
 
 
 def cluster_number_selection_by_kl(x, k_range, plot=False):
-    N, D = x.shape
     kls = np.empty(len(k_range))
     for k in k_range:
         print(f'======= {k} =========')
-        vgm = VariationalGaussianMixture(N, k, D, x)
+        vgm = VariationalGaussianMixture(x, k)
         vgm.fit(print_diff=False)
         kls[k-1] = vgm.kl_divergence()
         if plot:
