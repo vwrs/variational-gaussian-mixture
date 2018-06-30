@@ -163,8 +163,8 @@ class VariationalGaussianMixture():
         ax.add_artist(ell)
         ax.add_artist(edge)
 
-    def plot_with_ellipses(self):
-        fig, ax = plt.subplots(1, 1, figsize=(7, 7), dpi=200)
+    def plot_with_ellipses(self, figsize=(7, 7), dpi=200):
+        fig, ax = plt.subplots(1, 1, figsize=figsize, dpi=dpi)
         ax.scatter(self.x[:, 0], self.x[:, 1],
                    c='deepskyblue', edgecolor='black', alpha=.5)
         for k in range(self.K):
@@ -172,7 +172,6 @@ class VariationalGaussianMixture():
         ax.scatter(self.means[:, 0], self.means[:, 1],
                    c='orange', edgecolor='k',
                    marker='*', s=150)
-        plt.grid()
         plt.show()
 
 
@@ -185,7 +184,7 @@ def cluster_number_selection_by_kl(x, k_range, plot=False):
         vgm.fit(print_diff=False)
         kls[k-1] = vgm.kl_divergence()
         if plot:
-            vgm.plot_with_ellipses()
+            vgm.plot_with_ellipses(figsize=(8, 5), dpi=100)
 
     argmin_k = np.argmin(kls) + 1
     print(f'argmin_k: {argmin_k}, min_kl: {kls[argmin_k]}')
